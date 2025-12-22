@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import Dates from "./pages/Dates";
 import AddPhotos from "./pages/AddPhotos";
 import NeverForget from "./pages/NeverForget";
+import Diary from "./pages/Diary";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
           <Route path="/dates" element={<Dates />} />
           <Route path="/fotos/adicionar" element={<AddPhotos />} />
           <Route path="/lembretes" element={<NeverForget />} />
+          <Route path="/diario" element={<Diary />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

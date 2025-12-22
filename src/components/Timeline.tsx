@@ -3,27 +3,27 @@ import { Calendar, Heart, Star, Sparkles } from "lucide-react";
 
 const timelineEvents = [
   {
-    date: "25 de Agosto, 2025",
+    date: "11 de Outubro, 2025",
     title: "Nosso primeiro contato",
-    description: "O dia em que tudo começou, quando nossos caminhos se cruzaram e a magia aconteceu.",
+    description: "O dia em que tudo começou, nesse momento eramos apenas dois desconhecidos que não estavam procurando nada, mas ainda bem que eu respondi aquela mensagem",
     icon: Heart,
   },
   {
     date: "12 de Outubro, 2025",
     title: "Primeiro Encontro",
-    description: "Nosso primeiro encontro especial que ficará para sempre na memória.",
+    description: "O dia em que tudo começou, estavamos nervosos, mas entre chutes, garçons que nos odiavam e muito julgamento para casais felizes (amargurados), ali eu já tinha certeza que seria você",
     icon: Star,
   },
   {
     date: "Novembro, 2025",
     title: "Momentos Inesquecíveis",
-    description: "Cada momento ao seu lado é único e especial.",
+    description: "Eu sinceramente pensei muito em no que escrever aqui, mas a verdade é que todos os momentos com você são inesquecíveis, desde os mais simples até os mais especiais. Nesse dia eu precisava te dizer como me sentia e como você me mostrou que eu conseguia sentir algo por alguém novamente",
     icon: Sparkles,
   },
   {
     date: "Hoje",
-    title: "Nossa História Continua",
-    description: "E continuamos escrevendo nossa história juntos, dia após dia.",
+    title: "Nossa História Continua...",
+    description: "Quando eu estou fazendo isso aqui, não fazem 3 meses que nos conhecemos, e eu já sinto que você é uma parte essencial da minha vida. Nunca imaginei que alguém pudesse chegar e mudar tudo dentro de mim, até você chegar.",
     icon: Calendar,
   },
 ];

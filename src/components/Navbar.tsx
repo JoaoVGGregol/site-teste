@@ -5,7 +5,8 @@ const ICONS = {
   home: "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/House/3D/house_3d.png",
   calendar: "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Calendar/3D/calendar_3d.png",
   camera: "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Camera/3D/camera_3d.png",
-  note: "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Spiral%20notepad/3D/spiral_notepad_3d.png"
+  note: "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Spiral%20notepad/3D/spiral_notepad_3d.png",
+  memo: "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Memo/3D/memo_3d.png"
 };
 
 const Navbar = () => {
@@ -30,6 +31,13 @@ const Navbar = () => {
           <Button variant="ghost" className="rounded-full hover:bg-white/10 hover:text-primary transition-colors gap-2">
             <img src={ICONS.camera} alt="Photos" className="w-6 h-6" />
             <span className="hidden md:inline">Adicionar Fotos</span>
+          </Button>
+        </Link>
+
+        <Link to="/diario">
+          <Button variant="ghost" className="rounded-full hover:bg-white/10 hover:text-primary transition-colors gap-2">
+            <img src={ICONS.memo} alt="Diary" className="w-6 h-6" />
+            <span className="hidden md:inline">Diário</span>
           </Button>
         </Link>
 
