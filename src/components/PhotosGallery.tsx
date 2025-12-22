@@ -9,8 +9,9 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { motion } from "framer-motion"
+import { supabase } from "@/lib/supabase"
 
-const photos = [
+const defaultPhotos = [
   "/fotos/233793f9-6033-43a6-adf0-7bc77e07f59a.JPEG",
   "/fotos/8c24059c-4ee1-4b80-a190-7d56040ef066.JPEG",
   "/fotos/99c2bbae-bad4-4cc5-a937-6cea975c675d.JPEG",
@@ -20,9 +21,26 @@ const photos = [
 ]
 
 export function PhotosGallery() {
+  const [photos, setPhotos] = React.useState<string[]>(defaultPhotos)
   const plugin = React.useRef(
     Autoplay({ delay: 4000, stopOnInteraction: true })
   )
+
+  React.useEffect(() => {
+    const fetchPhotos = async () => {
+      const { data, error } = await supabase
+        .from('photos')
+        .select('url')
+        .order('created_at', { ascending: false })
+
+      if (data && data.length > 0) {
+        const urls = data.map(photo => photo.url)
+        setPhotos([...urls, ...defaultPhotos])
+      }
+    }
+
+    fetchPhotos()
+  }, [])
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4">
