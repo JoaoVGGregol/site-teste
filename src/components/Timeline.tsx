@@ -3,7 +3,7 @@ import { Calendar, Heart, Star, Sparkles } from "lucide-react";
 
 const timelineEvents = [
   {
-    date: "11 de Outubro, 2025",
+    date: "25 de Setembro, 2025",
     title: "Nosso primeiro contato",
     description: "O dia em que tudo começou, nesse momento eramos apenas dois desconhecidos que não estavam procurando nada, mas ainda bem que eu respondi aquela mensagem",
     icon: Heart,

@@ -9,8 +9,8 @@ import FuturePlaces from "@/components/FuturePlaces";
 import Navbar from "@/components/Navbar";
 
 const Index = () => {
-  // Imagem de fundo fofa e detalhista (Flores suaves com fundo escuro)
-  const cuteBackground = "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?q=80&w=2400&auto=format&fit=crop";
+  // Fundo com imagem de praia romântica
+  const cuteBackground = "/fundodetela.png";
 
   return (
     <div className="min-h-screen bg-gradient-soft">
@@ -72,10 +72,10 @@ const Index = () => {
           transition={{ duration: 0.6 }}
         >
           <p className="font-display text-2xl md:text-3xl text-primary-foreground mb-2 flex items-center justify-center gap-2">
-            Com amor, para sempre <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Sparkling%20heart/3D/sparkling_heart_3d.png" alt="Heart" className="w-8 h-8 inline-block" />
+            Feito com muito amor e carinho.<img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Sparkling%20heart/3D/sparkling_heart_3d.png" alt="Heart" className="w-8 h-8 inline-block" />
           </p>
           <p className="text-primary-foreground/80 text-sm">
-            Desde 25 de Agosto de 2025
+            Eu te amo muito, e espero que esse cantinho especial faça você sorrir sempre que lembrar de mim. ❤️
           </p>
         </motion.div>
       </footer>

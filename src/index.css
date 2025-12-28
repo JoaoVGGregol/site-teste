@@ -92,3 +92,50 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Heart-specific animations and utilities */
+@layer utilities {
+  @keyframes heart-shine {
+    0% { transform: translateX(-120%) scale(0.6); opacity: 0 }
+    50% { opacity: 0.55 }
+    100% { transform: translateX(120%) scale(1.2); opacity: 0 }
+  }
+
+  .heart-shine {
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 100%);
+    mix-blend-mode: overlay;
+    animation: heart-shine 1.8s ease-in-out infinite;
+    transform-origin: center;
+  }
+
+  @keyframes pulse-outer {
+    0% { transform: scale(1); opacity: 0.96 }
+    50% { transform: scale(1.12); opacity: 0.7 }
+    100% { transform: scale(1); opacity: 0.96 }
+  }
+
+  .heart-pulse { animation: pulse-outer 1.8s ease-in-out infinite; }
+
+  @keyframes sparkle {
+    0% { transform: scale(0); opacity: 0 }
+    50% { transform: scale(1.15); opacity: 1 }
+    100% { transform: scale(0); opacity: 0 }
+  }
+
+  .heart-sparkle { animation: sparkle 1.6s ease-in-out infinite; }
+
+  /* Key and Lock helpers */
+  .key-metal { filter: drop-shadow(0 4px 6px rgba(0,0,0,0.28)); transform-origin: center; }
+
+  /* Larger heart helpers */
+  .heart-large { will-change: transform, opacity; }
+  .heart-shine { mix-blend-mode: overlay; animation: heart-shine 1.9s ease-in-out infinite; }
+
+  @keyframes unlock-glow {
+    0% { opacity: 0 }
+    30% { opacity: 1; transform: scale(1.12) }
+    100% { opacity: 0 }
+  }
+
+  .unlock-glow { animation: unlock-glow 0.64s cubic-bezier(0.2, 0.9, 0.23, 1); }
+}

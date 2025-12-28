@@ -53,7 +53,7 @@ const PlaylistSection = () => {
           className="mt-8 text-center"
         >
           <p className="text-sm text-muted-foreground italic">
-            "Cada música conta um pedaço da nossa história" ❤️
+            "Cada música me lembra um pedacinho de você" ❤️
           </p>
         </motion.div>
       </motion.div>
