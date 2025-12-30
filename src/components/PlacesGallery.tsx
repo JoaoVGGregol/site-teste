@@ -12,10 +12,10 @@ const places = [
     mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114033.10172703957!2d-49.25972637866433!3d-26.727316648094394!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dee51350fdda43%3A0x8d04d4dc4fa02626!2sPomerode%20-%20Testo%20Salto%2C%20Pomerode%20-%20SC%2C%2089107-000!5e0!3m2!1spt-BR!2sbr!4v1766437765165!5m2!1spt-BR!2sbr"
   },
   {
-    name: "Oceanic Aquarium",
-    description: "Um passeio incrível descobrindo as maravilhas do fundo do mar.",
+    name: "Balneario Camboriú SC",
+    description: "Happy memories :).",
     image: placePark,
-    mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3554.777561658389!2d-48.61899032455721!3d-27.005585376591853!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94d8b7a8219e2e9b%3A0x148f8ac7b6e553c3!2sOceanic%20Aquarium!5e0!3m2!1spt-BR!2sbr!4v1766437717715!5m2!1spt-BR!2sbr"
+    mapUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113752.63402037357!2d-48.6993853184751!3d-27.005830427716283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94d8b65cc2e52aad%3A0x2dc004f5e6adebc4!2zQmFsbmXDoXJpbyBDYW1ib3Jpw7osIFND!5e0!3m2!1spt-BR!2sbr!4v1767060670393!5m2!1spt-BR!2sbr"
   },
   {
     name: "Ristorante Funiculì Funiculà",
@@ -35,7 +35,7 @@ const PlacesGallery = () => {
         transition={{ duration: 0.6 }}
         className="font-display text-4xl md:text-5xl text-center mb-16 text-foreground"
       >
-        Lugares que visitamos :)
+        Lugares que fomos :) 
       </motion.h2>
 
       <div className="grid md:grid-cols-3 gap-8">

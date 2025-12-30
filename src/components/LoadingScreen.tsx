@@ -9,7 +9,7 @@ const LoadingScreen = () => {
     if (isLoading) {
       const timer = setTimeout(() => {
         setIsVisible(false);
-      }, 2000);
+      }, 2500);
       return () => clearTimeout(timer);
     }
   }, [isLoading]);
@@ -26,94 +26,86 @@ const LoadingScreen = () => {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
           animate={isLoading ? { rotate: 360 } : { rotate: 0 }}
-          transition={isLoading ? { duration: 2, ease: "easeInOut" } : { duration: 0 }}
         >
-          {/* Spiral overlay that fills the screen */}
+          {/* Spiral heart loading effect */}
           <AnimatePresence>
             {isLoading && (
               <motion.div
                 className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                {/* Background spiral glow */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-b from-primary/20 via-transparent to-transparent"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 0.5, 0] }}
-                  transition={{ duration: 2 }}
-                />
-
-                {/* Large rotating spiral */}
                 <motion.svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 400 400"
-                  className="absolute w-[200%] h-[200%] md:w-[250%] md:h-[250%]"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ 
-                    opacity: 1, 
-                    scale: [0.5, 1, 1.3],
-                    rotate: [0, -360]
-                  }}
-                  exit={{ opacity: 0, scale: 1.5 }}
-                  transition={{ duration: 2, ease: "easeInOut" }}
+                  className="w-80 h-80 md:w-96 md:h-96"
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 2, ease: "linear" }}
                 >
                   <defs>
-                    <linearGradient id="spiralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#ff6b9d" stopOpacity="0.8" />
-                      <stop offset="50%" stopColor="#ff4d7d" stopOpacity="0.5" />
-                      <stop offset="100%" stopColor="#ff6b9d" stopOpacity="0" />
+                    <linearGradient id="heartSpiralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#ff6b9d" />
+                      <stop offset="50%" stopColor="#ff7ba8" />
+                      <stop offset="100%" stopColor="#ff4d7d" />
                     </linearGradient>
                   </defs>
 
-                  {/* Multiple spiral curves for depth */}
+                  {/* Heart-shaped spiral */}
                   <motion.path
-                    d="M 200 50 Q 350 100 350 200 Q 350 300 200 350 Q 50 300 50 200 Q 50 100 200 50 Q 320 50 340 180 Q 340 280 200 340"
+                    d="M 200,320 
+                       C 130,260 80,210 80,140 
+                       C 80,100 110,70 145,70 
+                       C 170,70 192,85 200,105 
+                       C 208,85 230,70 255,70 
+                       C 290,70 320,100 320,140 
+                       C 320,210 270,260 200,320 Z"
                     fill="none"
-                    stroke="url(#spiralGrad)"
-                    strokeWidth="4"
+                    stroke="url(#heartSpiralGrad)"
+                    strokeWidth="3.5"
                     strokeLinecap="round"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
+                    strokeLinejoin="round"
+                    initial={{ strokeDasharray: 800, strokeDashoffset: 800, opacity: 0 }}
+                    animate={{ 
+                      strokeDashoffset: 0,
+                      opacity: 1
+                    }}
                     transition={{ duration: 2, ease: "easeInOut" }}
                   />
 
+                  {/* Secondary spiral layer */}
                   <motion.path
-                    d="M 200 80 Q 320 120 330 200 Q 320 280 200 320 Q 80 280 80 200 Q 80 120 200 80 Q 300 85 315 180"
+                    d="M 200,310 
+                       C 140,260 95,215 95,150 
+                       C 95,115 118,85 150,85 
+                       C 172,85 190,97 200,115 
+                       C 210,97 228,85 250,85 
+                       C 282,85 305,115 305,150 
+                       C 305,215 260,260 200,310 Z"
                     fill="none"
-                    stroke="url(#spiralGrad)"
-                    strokeWidth="3"
+                    stroke="url(#heartSpiralGrad)"
+                    strokeWidth="2.5"
                     strokeLinecap="round"
+                    strokeLinejoin="round"
                     opacity="0.6"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
+                    initial={{ strokeDasharray: 750, strokeDashoffset: 750, opacity: 0 }}
+                    animate={{ 
+                      strokeDashoffset: 0,
+                      opacity: 0.6
+                    }}
                     transition={{ duration: 2, ease: "easeInOut", delay: 0.1 }}
                   />
 
-                  <motion.path
-                    d="M 200 120 Q 280 150 290 200 Q 280 250 200 280 Q 120 250 120 200 Q 120 150 200 120"
-                    fill="none"
-                    stroke="url(#spiralGrad)"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    opacity="0.4"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 2, ease: "easeInOut", delay: 0.2 }}
+                  {/* Center dot */}
+                  <motion.circle
+                    cx="200"
+                    cy="200"
+                    r="6"
+                    fill="#ff6b9d"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: [0, 1, 0.8] }}
+                    transition={{ delay: 0.3, duration: 0.6 }}
                   />
-
-                  {/* Center rotating heart */}
-                  <motion.g
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 2, ease: "linear" }}
-                    style={{ transformOrigin: "200px 200px" }}
-                  >
-                    <circle cx="200" cy="200" r="20" fill="#ff6b9d" />
-                    <path
-                      d="M200,190 C210,180 220,185 220,195 C220,205 210,215 200,220 C190,215 180,205 180,195 C180,185 190,180 200,190"
-                      fill="white"
-                      opacity="0.9"
-                    />
-                  </motion.g>
                 </motion.svg>
               </motion.div>
             )}
