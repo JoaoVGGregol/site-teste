@@ -72,7 +72,7 @@ const Diary = () => {
       if (error) throw error;
 
       // Enviar email de notificação
-      const userEmail = (await supabase.auth.getUser()).data.user?.email;
+      const userEmail = "joaovictorggregol@gmail.com";
       const girlfriendEmail = import.meta.env.VITE_GIRLFRIEND_EMAIL;
       
       console.log("DEBUG: userEmail=", userEmail);
