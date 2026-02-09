@@ -5,14 +5,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/lib/supabase";
 import { motion } from "framer-motion";
-import { Loader2, Send, Trash2, Mail, Bell } from "lucide-react";
+import { Loader2, Send, Trash2, Mail } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription } from "@/components/ui/sheet";
-import { 
-  registerServiceWorker, 
-  requestNotificationPermission, 
-  subscribeToPushNotifications,
-  sendLocalNotification 
-} from "@/lib/notifications";
+import { sendDiaryNotificationEmail } from "@/lib/email";
 
 interface Message {
   id: string;
@@ -27,8 +22,6 @@ const Diary = () => {
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [animatingMessageId, setAnimatingMessageId] = useState<string | null>(null);
-  const [notificationEnabled, setNotificationEnabled] = useState(false);
-  const [isEnablingNotifications, setIsEnablingNotifications] = useState(false);
   const animTimeoutRef = useRef<number | null>(null);
   const { toast } = useToast();
 
@@ -39,24 +32,6 @@ const Diary = () => {
         animTimeoutRef.current = null;
       }
     };
-  }, []);
-
-  // Inicializar Service Worker e verificar status de notificações
-  useEffect(() => {
-    const initNotifications = async () => {
-      try {
-        await registerServiceWorker();
-        
-        // Verificar se já tem permissão
-        if ("Notification" in window) {
-          setNotificationEnabled(Notification.permission === "granted");
-        }
-      } catch (error) {
-        console.error("Erro ao inicializar notificações:", error);
-      }
-    };
-
-    initNotifications();
   }, []);
 
   const fetchMessages = async () => {
@@ -76,37 +51,6 @@ const Diary = () => {
     fetchMessages();
   }, []);
 
-  const handleEnableNotifications = async () => {
-    setIsEnablingNotifications(true);
-    try {
-      const hasPermission = await requestNotificationPermission();
-      
-      if (hasPermission) {
-        await subscribeToPushNotifications();
-        setNotificationEnabled(true);
-        toast({
-          title: "Notificações ativadas! 🔔",
-          description: "Você receberá notificações quando escrever no diário.",
-        });
-      } else {
-        toast({
-          title: "Permissão negada",
-          description: "Você precisa permitir notificações nas configurações do navegador.",
-          variant: "destructive",
-        });
-      }
-    } catch (error) {
-      console.error("Erro ao habilitar notificações:", error);
-      toast({
-        title: "Erro",
-        description: "Não foi possível habilitar notificações.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsEnablingNotifications(false);
-    }
-  };
-
   const handleSave = async () => {
     if (!message.trim()) {
       toast({
@@ -119,21 +63,37 @@ const Diary = () => {
 
     setIsLoading(true);
     try {
-      const { error } = await supabase
+      const { error, data } = await supabase
         .from("messages")
-        .insert([{ content: message }]);
+        .insert([{ content: message }])
+        .select()
+        .single();
 
       if (error) throw error;
 
-      // Enviar notificação local (sempre funciona se permitida)
-      sendLocalNotification("Novo pensamento no diário! ✨", {
-        body: message.substring(0, 100) + (message.length > 100 ? "..." : ""),
-      });
+      // Enviar email de notificação
+      const userEmail = (await supabase.auth.getUser()).data.user?.email;
+      if (userEmail && data) {
+        const emailResult = await sendDiaryNotificationEmail(
+          userEmail,
+          message,
+          data.created_at
+        );
 
-      toast({
-        title: "Salvo com sucesso!",
-        description: "Seu pensamento foi guardado no nosso cantinho.",
-      });
+        if (emailResult.success) {
+          toast({
+            title: "Salvo com sucesso! 📧",
+            description: "Um email foi enviado com seu pensamento.",
+          });
+        } else {
+          // Mesmo que o email falhe, o pensamento foi salvo
+          toast({
+            title: "Salvo com sucesso!",
+            description: "Seu pensamento foi guardado (email não foi enviado).",
+          });
+        }
+      }
+
       setMessage("");
       fetchMessages();
     } catch (error) {
@@ -217,46 +177,24 @@ const Diary = () => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />
-          <div className="flex justify-between items-center gap-4">
-            <div>
-              {!notificationEnabled && (
-                <Button
-                  onClick={handleEnableNotifications}
-                  disabled={isEnablingNotifications}
-                  variant="outline"
-                  size="sm"
-                  className="gap-2"
-                >
-                  <Bell className="w-4 h-4" />
-                  {isEnablingNotifications ? "Ativando..." : "Ativar notificações"}
-                </Button>
+          <div className="flex justify-end">
+            <Button 
+              onClick={handleSave} 
+              disabled={isLoading}
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Salvando...
+                </>
+              ) : (
+                <>
+                  <Send className="mr-2 h-4 w-4" />
+                  Guardar no Coração
+                </>
               )}
-              {notificationEnabled && (
-                <span className="text-sm text-green-500 font-medium flex items-center gap-2">
-                  <Bell className="w-4 h-4 fill-green-500" />
-                  Notificações ativas
-                </span>
-              )}
-            </div>
-            <div className="flex justify-end">
-              <Button 
-                onClick={handleSave} 
-                disabled={isLoading}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Salvando...
-                  </>
-                ) : (
-                  <>
-                    <Send className="mr-2 h-4 w-4" />
-                    Guardar no Coração
-                  </>
-                )}
-              </Button>
-            </div>
+            </Button>
           </div>
         </motion.div>
 
