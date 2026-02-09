@@ -1,9 +1,9 @@
 {
   "buildCommand": "npm run build",
   "installCommand": "npm install",
-  "functions": {
-    "api/send-email.js": {
-      "runtime": "nodejs20.x"
-    }
+  "env": {
+    "VITE_RESEND_API_KEY": "@vite_resend_api_key",
+    "VITE_GIRLFRIEND_EMAIL": "@vite_girlfriend_email",
+    "VITE_SITE_URL": "@vite_site_url"
   }
 }
