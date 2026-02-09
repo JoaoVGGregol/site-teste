@@ -1,10 +1,27 @@
 import { Resend } from "https://cdn.jsdelivr.net/npm/resend@latest/+esm";
 
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
 Deno.serve(async (req) => {
+  // Handle CORS preflight
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+
   if (req.method !== "POST") {
     return new Response(
       JSON.stringify({ error: "Method not allowed" }),
-      { status: 405, headers: { "Content-Type": "application/json" } }
+      { 
+        status: 405, 
+        headers: { 
+          "Content-Type": "application/json",
+          ...corsHeaders 
+        } 
+      }
     );
   }
 
@@ -14,7 +31,13 @@ Deno.serve(async (req) => {
     if (!emails || !message || !timestamp) {
       return new Response(
         JSON.stringify({ error: "Missing required fields" }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
+        { 
+          status: 400, 
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          } 
+        }
       );
     }
 
@@ -69,19 +92,37 @@ Deno.serve(async (req) => {
       console.error("Erro ao enviar email:", result.error);
       return new Response(
         JSON.stringify({ error: result.error }),
-        { status: 500, headers: { "Content-Type": "application/json" } }
+        { 
+          status: 500, 
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          } 
+        }
       );
     }
 
     return new Response(
       JSON.stringify({ success: true, data: result.data }),
-      { status: 200, headers: { "Content-Type": "application/json" } }
+      { 
+        status: 200, 
+        headers: { 
+          "Content-Type": "application/json",
+          ...corsHeaders 
+        } 
+      }
     );
   } catch (error) {
     console.error("Erro ao processar requisição:", error);
     return new Response(
       JSON.stringify({ error: "Failed to send email" }),
-      { status: 500, headers: { "Content-Type": "application/json" } }
+      { 
+        status: 500, 
+        headers: { 
+          "Content-Type": "application/json",
+          ...corsHeaders 
+        } 
+      }
     );
   }
 });
