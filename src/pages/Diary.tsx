@@ -75,16 +75,24 @@ const Diary = () => {
       const userEmail = (await supabase.auth.getUser()).data.user?.email;
       const girlfriendEmail = import.meta.env.VITE_GIRLFRIEND_EMAIL;
       
+      console.log("DEBUG: userEmail=", userEmail);
+      console.log("DEBUG: girlfriendEmail=", girlfriendEmail);
+      console.log("DEBUG: data=", data);
+      
       if (userEmail && data) {
         const emailsToSend = girlfriendEmail 
           ? [userEmail, girlfriendEmail]
           : [userEmail];
+
+        console.log("DEBUG: Enviando emails para:", emailsToSend);
 
         const emailResult = await sendDiaryNotificationEmail(
           emailsToSend,
           message,
           data.created_at
         );
+
+        console.log("DEBUG: emailResult=", emailResult);
 
         if (emailResult.success) {
           toast({
@@ -98,6 +106,8 @@ const Diary = () => {
             description: "Seu pensamento foi guardado (email não foi enviado).",
           });
         }
+      } else {
+        console.log("DEBUG: Não enviando email - userEmail ou data está vazio");
       }
 
       setMessage("");
