@@ -3,14 +3,17 @@ import { Resend } from 'resend';
 const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
 
 export const sendDiaryNotificationEmail = async (
-  toEmail: string,
+  toEmails: string | string[],
   messageContent: string,
   timestamp: string
 ) => {
   try {
+    // Converter para array se for string
+    const emailList = Array.isArray(toEmails) ? toEmails : [toEmails];
+
     const result = await resend.emails.send({
       from: 'Nosso Cantinho Especial <onboarding@resend.dev>',
-      to: toEmail,
+      to: emailList,
       subject: '✨ Novo pensamento no seu diário!',
       html: `
         <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: #333;">

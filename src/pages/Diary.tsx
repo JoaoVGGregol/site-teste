@@ -73,9 +73,15 @@ const Diary = () => {
 
       // Enviar email de notificação
       const userEmail = (await supabase.auth.getUser()).data.user?.email;
+      const girlfriendEmail = import.meta.env.VITE_GIRLFRIEND_EMAIL;
+      
       if (userEmail && data) {
+        const emailsToSend = girlfriendEmail 
+          ? [userEmail, girlfriendEmail]
+          : [userEmail];
+
         const emailResult = await sendDiaryNotificationEmail(
-          userEmail,
+          emailsToSend,
           message,
           data.created_at
         );
@@ -83,7 +89,7 @@ const Diary = () => {
         if (emailResult.success) {
           toast({
             title: "Salvo com sucesso! 📧",
-            description: "Um email foi enviado com seu pensamento.",
+            description: "Emails foram enviados com seu pensamento.",
           });
         } else {
           // Mesmo que o email falhe, o pensamento foi salvo
