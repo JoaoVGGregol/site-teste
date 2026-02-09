@@ -68,6 +68,14 @@ const Diary = () => {
 
       if (error) throw error;
 
+      // Enviar notificação push
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("Novo pensamento no diário! ✨", {
+          body: message.substring(0, 100) + (message.length > 100 ? "..." : ""),
+          icon: "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Memo/3D/memo_3d.png",
+        });
+      }
+
       toast({
         title: "Salvo com sucesso!",
         description: "Seu pensamento foi guardado no nosso cantinho.",
