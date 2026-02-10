@@ -39,6 +39,31 @@ Deno.serve(async (req) => {
       );
     }
 
+    // Filtrar apenas emails permitidos no plano free do Resend
+    const allowedEmail = "joaovictorggregol@gmail.com";
+    const emailList = Array.isArray(emails) ? emails : [emails];
+    const filteredEmails = emailList.filter(email => 
+      email.toLowerCase() === allowedEmail.toLowerCase()
+    );
+
+    // Se nenhum email válido, retornar aviso
+    if (filteredEmails.length === 0) {
+      return new Response(
+        JSON.stringify({ 
+          success: true, 
+          message: "Email skipped: Only verified emails can receive notifications in free plan",
+          allowedEmail: allowedEmail 
+        }),
+        { 
+          status: 200, 
+          headers: { 
+            "Content-Type": "application/json",
+            ...corsHeaders 
+          } 
+        }
+      );
+    }
+
     const apiKey = Deno.env.get("RESEND_API_KEY");
     const siteUrl = Deno.env.get("SITE_URL");
 
@@ -91,7 +116,7 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         from: "Nosso Cantinho Especial <onboarding@resend.dev>",
-        to: emails,
+        to: filteredEmails,
         subject: "✨ Novo pensamento no seu diário!",
         html: emailBody,
       }),
