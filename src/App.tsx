@@ -9,6 +9,7 @@ import AddPhotos from "./pages/AddPhotos";
 import NeverForget from "./pages/NeverForget";
 import Diary from "./pages/Diary";
 import NotFound from "./pages/NotFound";
+import HiddenLoveNote from "@/components/HiddenLoveNote";
 
 const queryClient = new QueryClient();
 
@@ -18,6 +19,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <HiddenLoveNote />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dates" element={<Dates />} />

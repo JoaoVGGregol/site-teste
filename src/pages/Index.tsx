@@ -7,6 +7,7 @@ import { PhotosGallery } from "@/components/PhotosGallery";
 import LoadingScreen from "@/components/LoadingScreen";
 import FuturePlaces from "@/components/FuturePlaces";
 import Navbar from "@/components/Navbar";
+import SixMonthsOverlay from "@/components/SixMonthsOverlay";
 
 const Index = () => {
   // Fundo com imagem de praia romântica
@@ -14,6 +15,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-soft">
+      <SixMonthsOverlay />
       <LoadingScreen />
       <Navbar />
       
@@ -31,6 +33,25 @@ const Index = () => {
 
         {/* Content */}
         <div className="relative z-20 container mx-auto px-4 py-20">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto mb-10"
+          >
+            <div className="rounded-3xl border border-primary/30 bg-card/80 backdrop-blur-lg shadow-glow px-6 py-6 md:px-10 md:py-8 text-center">
+              <p className="text-primary font-semibold tracking-wide text-sm md:text-base">
+                NOSSO REBRAND DE HOJE
+              </p>
+              <h1 className="font-display text-4xl md:text-6xl text-foreground mt-2 leading-tight">
+                Especial de 6 Meses 💖
+              </h1>
+              <p className="text-muted-foreground mt-3 md:text-lg">
+                Amanhã celebramos meio ano da nossa história. Esta página virou oficialmente nossa festa.
+              </p>
+            </div>
+          </motion.div>
+
           <CountdownTimer />
         </div>
 

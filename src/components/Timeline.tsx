@@ -26,6 +26,13 @@ const timelineEvents = [
     description: "Quando eu estou fazendo isso aqui, não fazem 3 meses que nos conhecemos, e eu já sinto que você é uma parte essencial da minha vida. Nunca imaginei que alguém pudesse chegar e mudar tudo dentro de mim, até você chegar.",
     icon: Calendar,
   },
+  {
+    date: "6 meses",
+    title: "Especial de 6 Meses",
+    description: "6 meses de carinho, parceria e memórias lindas. Obrigado por transformar meus dias e por ser meu cantinho especial. 💖",
+    icon: Sparkles,
+    badge: "6 meses",
+  },
 ];
 
 const Timeline = () => {
@@ -40,6 +47,24 @@ const Timeline = () => {
       >
         Nossa Linha do Tempo
       </motion.h2>
+
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="mb-12"
+      >
+        <div className="bg-card rounded-2xl p-6 shadow-glow border border-primary/40 text-center">
+          <span className="inline-flex text-xs font-semibold px-3 py-1 rounded-full bg-primary/15 text-primary border border-primary/30 uppercase tracking-wide mb-3">
+            6 meses
+          </span>
+          <h3 className="font-display text-2xl md:text-3xl text-foreground mb-2">Nosso Marco Especial 💖</h3>
+          <p className="text-muted-foreground leading-relaxed">
+            Seis meses de amor, risadas e momentos inesquecíveis. Que esse seja só o começo da nossa história.
+          </p>
+        </div>
+      </motion.div>
 
       <div className="relative">
         {/* Vertical line */}
@@ -74,7 +99,14 @@ const Timeline = () => {
                 {/* Content card */}
                 <div className={`ml-20 md:ml-0 md:w-1/2 ${isEven ? "md:pr-12" : "md:pl-12"}`}>
                   <div className="bg-card rounded-2xl p-6 shadow-soft border border-border hover:shadow-glow transition-all duration-300">
-                    <div className="text-sm text-primary font-semibold mb-2">{event.date}</div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="text-sm text-primary font-semibold">{event.date}</div>
+                      {event.badge && (
+                        <span className="text-xs font-semibold px-2 py-1 rounded-full bg-primary/15 text-primary border border-primary/30 uppercase tracking-wide">
+                          {event.badge}
+                        </span>
+                      )}
+                    </div>
                     <h3 className="font-display text-2xl mb-2 text-foreground">{event.title}</h3>
                     <p className="text-muted-foreground leading-relaxed">{event.description}</p>
                   </div>

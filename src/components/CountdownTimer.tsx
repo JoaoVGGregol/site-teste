@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const CountdownTimer = () => {
@@ -18,7 +18,7 @@ const CountdownTimer = () => {
 
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));      
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
       setTimeElapsed({ days, hours, minutes, seconds });
@@ -36,12 +36,20 @@ const CountdownTimer = () => {
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ duration: 0.5, type: "spring" }}
+        className="flex flex-col items-center gap-4"
       >
-        <img 
-          src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Sparkling%20heart/3D/sparkling_heart_3d.png" 
-          alt="Heart" 
-          className="w-24 h-24 animate-float drop-shadow-lg" 
+        <img
+          src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Sparkling%20heart/3D/sparkling_heart_3d.png"
+          alt="Heart"
+          className="w-24 h-24 animate-float drop-shadow-lg"
         />
+        <motion.div
+          animate={{ scale: [1, 1.1, 1] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="bg-primary/20 text-primary px-6 py-2 rounded-full font-bold text-lg border border-primary/30 shadow-glow"
+        >
+          ✨ Especial de 6 Meses ✨
+        </motion.div>
       </motion.div>
 
       <motion.h2
