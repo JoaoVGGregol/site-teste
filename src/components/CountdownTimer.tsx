@@ -48,7 +48,7 @@ const CountdownTimer = () => {
           transition={{ duration: 2, repeat: Infinity }}
           className="bg-primary/20 text-primary px-6 py-2 rounded-full font-bold text-lg border border-primary/30 shadow-glow"
         >
-          ✨ Especial de 6 Meses ✨
+          ✨ Nossa História ✨
         </motion.div>
       </motion.div>
 

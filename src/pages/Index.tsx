@@ -7,7 +7,7 @@ import { PhotosGallery } from "@/components/PhotosGallery";
 import LoadingScreen from "@/components/LoadingScreen";
 import FuturePlaces from "@/components/FuturePlaces";
 import Navbar from "@/components/Navbar";
-import SixMonthsOverlay from "@/components/SixMonthsOverlay";
+import MilestoneOverlay from "@/components/MilestoneOverlay";
 
 const Index = () => {
   // Fundo com imagem de praia romântica
@@ -15,7 +15,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gradient-soft">
-      <SixMonthsOverlay />
+      <MilestoneOverlay />
       <LoadingScreen />
       <Navbar />
       
@@ -41,13 +41,13 @@ const Index = () => {
           >
             <div className="rounded-3xl border border-primary/30 bg-card/80 backdrop-blur-lg shadow-glow px-6 py-6 md:px-10 md:py-8 text-center">
               <p className="text-primary font-semibold tracking-wide text-sm md:text-base">
-                NOSSO REBRAND DE HOJE
+                NOSSA HISTÓRIA ESPECIAL
               </p>
               <h1 className="font-display text-4xl md:text-6xl text-foreground mt-2 leading-tight">
-                Especial de 6 Meses 💖
+                Um cantinho só nosso 💖
               </h1>
               <p className="text-muted-foreground mt-3 md:text-lg">
-                Amanhã celebramos meio ano da nossa história. Esta página virou oficialmente nossa festa.
+                Celebrando cada momento incrível que vivemos juntos.
               </p>
             </div>
           </motion.div>
