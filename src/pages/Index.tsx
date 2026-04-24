@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import CountdownTimer from "@/components/CountdownTimer";
 import Timeline from "@/components/Timeline";
 import PlacesGallery from "@/components/PlacesGallery";
@@ -7,15 +8,27 @@ import { PhotosGallery } from "@/components/PhotosGallery";
 import LoadingScreen from "@/components/LoadingScreen";
 import FuturePlaces from "@/components/FuturePlaces";
 import Navbar from "@/components/Navbar";
-import MilestoneOverlay from "@/components/MilestoneOverlay";
 
 const Index = () => {
+  const [monthsElapsed, setMonthsElapsed] = useState(0);
+  const [daysElapsed, setDaysElapsed] = useState(0);
+
+  useEffect(() => {
+    const startDate = new Date("2025-09-25T00:00:00");
+    const now = new Date();
+    const diffTime = now.getTime() - startDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    const diffMonths = Math.floor(diffDays / 30);
+
+    setMonthsElapsed(diffMonths);
+    setDaysElapsed(diffDays);
+  }, []);
+
   // Fundo com imagem de praia romântica
   const cuteBackground = "/fundodetela.png";
 
   return (
     <div className="min-h-screen bg-gradient-soft">
-      <MilestoneOverlay />
       <LoadingScreen />
       <Navbar />
       
@@ -46,9 +59,20 @@ const Index = () => {
               <h1 className="font-display text-4xl md:text-6xl text-foreground mt-2 leading-tight">
                 Um cantinho só nosso 💖
               </h1>
-              <p className="text-muted-foreground mt-3 md:text-lg">
-                Celebrando cada momento incrível que vivemos juntos.
-              </p>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="mt-4 md:mt-6 bg-gradient-to-r from-pink-500/20 to-rose-500/20 border border-pink-500/30 rounded-2xl py-4 md:py-6"
+              >
+                <div className="flex items-center justify-center gap-3 mb-2">
+                  <span className="text-3xl md:text-4xl font-display text-rose-400">{monthsElapsed}+</span>
+                  <span className="text-sm md:text-base font-semibold text-muted-foreground">Meses de muito amor</span>
+                </div>
+                <p className="text-xs md:text-sm text-muted-foreground">
+                  {daysElapsed} dias de momentos incrível que vivemos juntos.
+                </p>
+              </motion.div>
             </div>
           </motion.div>
 
