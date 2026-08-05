@@ -27,7 +27,7 @@ const Index = () => {
   }, []);
 
   // Fundo com imagem de praia romântica
-  const cuteBackground = "/fundodetela.png";
+  const cuteBackground = "/fundodetela.webp";
 
   return (
     <div className="min-h-screen bg-gradient-soft">
@@ -35,13 +35,14 @@ const Index = () => {
       <Navbar />
       
       {/* Hero Section with Timer */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-screen min-h-[100svh] flex items-center justify-center overflow-hidden">
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background/90 z-10" />
           <img
             src={cuteBackground}
             alt="Hero Background"
+            decoding="async"
             className="w-full h-full object-cover opacity-40 animate-pulse-slow"
           />
           <AuroraBackground className="z-[5]" />
@@ -55,7 +56,7 @@ const Index = () => {
             transition={{ duration: 0.6 }}
             className="max-w-4xl mx-auto mb-10"
           >
-            <div className="rounded-3xl border border-primary/30 bg-card/80 backdrop-blur-lg shadow-glow px-6 py-6 md:px-10 md:py-8 text-center">
+            <div className="rounded-3xl border border-primary/30 bg-card/90 md:bg-card/80 md:backdrop-blur-lg shadow-glow px-6 py-6 md:px-10 md:py-8 text-center">
               <p className="text-primary font-semibold tracking-wide text-sm md:text-base">
                 NOSSA HISTÓRIA ESPECIAL
               </p>
@@ -87,27 +88,27 @@ const Index = () => {
       </section>
 
       {/* Timeline Section */}
-      <section className="py-20 px-4 bg-background">
+      <section className="py-12 md:py-20 px-4 bg-background">
         <Timeline />
       </section>
 
       {/* Photos Gallery Section */}
-      <section className="py-20 px-4 bg-secondary/10">
+      <section className="py-12 md:py-20 px-4 bg-secondary/10">
         <PhotosGallery />
       </section>
 
       {/* Places Gallery Section */}
-      <section className="py-20 px-4 bg-gradient-to-b from-background to-secondary/30">
+      <section className="py-12 md:py-20 px-4 bg-gradient-to-b from-background to-secondary/30">
         <PlacesGallery />
       </section>
 
       {/* Future Places Section */}
-      <section className="py-20 px-4 bg-background">
+      <section className="py-12 md:py-20 px-4 bg-background">
         <FuturePlaces />
       </section>
 
       {/* Playlist Section */}
-      <section className="py-20 px-4 bg-secondary/10">
+      <section className="py-12 md:py-20 px-4 bg-secondary/10">
         <PlaylistSection />
       </section>
 

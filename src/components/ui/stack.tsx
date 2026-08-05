@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useTransform } from "framer-motion";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import "./stack.css";
 
 interface CardRotateProps {
@@ -101,6 +101,13 @@ export default function Stack({
     setStack(cards.map((content, index) => ({ id: index + 1, content })));
   }, [cards]);
 
+  // Um sorteio fixo por posição da pilha. Sortear durante o render mudava o
+  // ângulo a cada frame e mantinha o framer-motion reanimando sem parar.
+  const randomRotations = useMemo(
+    () => Array.from({ length: stack.length }, () => (randomRotation ? Math.random() * 10 - 5 : 0)),
+    [stack.length, randomRotation],
+  );
+
   const sendToBack = (id: number) => {
     setStack((prev) => {
       const newStack = [...prev];
@@ -112,15 +119,21 @@ export default function Stack({
   };
 
   useEffect(() => {
-    if (autoplay && stack.length > 1 && !isPaused) {
-      const interval = setInterval(() => {
-        const topCardId = stack[stack.length - 1].id;
-        sendToBack(topCardId);
-      }, autoplayDelay);
+    if (!autoplay || isPaused) return;
 
-      return () => clearInterval(interval);
-    }
-  }, [autoplay, autoplayDelay, stack, isPaused]);
+    // Atualização funcional: sem `stack` nas dependências o intervalo não é
+    // destruído e recriado a cada troca de carta.
+    const interval = setInterval(() => {
+      setStack((prev) => {
+        if (prev.length < 2) return prev;
+        const newStack = [...prev];
+        newStack.unshift(newStack.pop()!);
+        return newStack;
+      });
+    }, autoplayDelay);
+
+    return () => clearInterval(interval);
+  }, [autoplay, autoplayDelay, isPaused]);
 
   return (
     <div
@@ -129,7 +142,7 @@ export default function Stack({
       onMouseLeave={() => pauseOnHover && setIsPaused(false)}
     >
       {stack.map((card, index) => {
-        const randomRotate = randomRotation ? Math.random() * 10 - 5 : 0;
+        const randomRotate = randomRotations[index] ?? 0;
         return (
           <CardRotate
             key={card.id}

@@ -239,6 +239,18 @@ All colors MUST be HSL.
     .aurora-blob { animation: none; }
   }
 
+  /* No celular o blur grande animando sem parar trava a rolagem: mantemos o
+     visual, mas sem repintar a cada frame. */
+  @media (max-width: 767px) {
+    .aurora-blob {
+      filter: blur(50px);
+      will-change: auto;
+      animation: none;
+    }
+
+    .animate-pulse-slow { animation: none; }
+  }
+
   /* Animated gradient border glow, used by SpotlightCard on hover */
   @keyframes border-glow {
     0% { background-position: 0% 50%; }

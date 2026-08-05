@@ -5,13 +5,17 @@ import GradientText from "@/components/ui/gradient-text"
 import Stack from "@/components/ui/stack"
 import { HeartFavorite } from "@/components/ui/heart-favorite"
 
+const MAX_PHOTOS = 12
+
+// Versões .webp redimensionadas: as originais .JPEG continuam em public/fotos,
+// mas ocupavam ~8 MB de memória cada quando decodificadas no celular.
 export const defaultPhotos = [
-  "/fotos/233793f9-6033-43a6-adf0-7bc77e07f59a.JPEG",
-  "/fotos/8c24059c-4ee1-4b80-a190-7d56040ef066.JPEG",
-  "/fotos/99c2bbae-bad4-4cc5-a937-6cea975c675d.JPEG",
-  "/fotos/e05b7e8e-5ee6-4a78-a165-29348b195a80.JPEG",
-  "/fotos/ff9a21e9-5720-4995-bb0c-ff19b8cd650c.JPEG",
-  "/fotos/2ee18636-4065-4add-959d-09ee8a45101e.JPEG",
+  "/fotos/233793f9-6033-43a6-adf0-7bc77e07f59a.webp",
+  "/fotos/8c24059c-4ee1-4b80-a190-7d56040ef066.webp",
+  "/fotos/99c2bbae-bad4-4cc5-a937-6cea975c675d.webp",
+  "/fotos/e05b7e8e-5ee6-4a78-a165-29348b195a80.webp",
+  "/fotos/ff9a21e9-5720-4995-bb0c-ff19b8cd650c.webp",
+  "/fotos/2ee18636-4065-4add-959d-09ee8a45101e.webp",
 ]
 
 export function PhotosGallery() {
@@ -26,12 +30,29 @@ export function PhotosGallery() {
 
       if (data && data.length > 0) {
         const urls = data.map(photo => photo.url)
-        setPhotos([...urls, ...defaultPhotos])
+        // Limita a pilha: cada foto vira uma imagem viva na memória, e o Safari
+        // do iPhone derruba a aba se a galeria crescer demais.
+        setPhotos([...urls, ...defaultPhotos].slice(0, MAX_PHOTOS))
       }
     }
 
     fetchPhotos()
   }, [])
+
+  // Memoizado: recriar esse array a cada render faz o Stack remontar as cartas.
+  const cards = React.useMemo(
+    () =>
+      photos.map((photo, index) => (
+        <img
+          key={photo + index}
+          src={photo}
+          alt={`Nosso momento ${index + 1}`}
+          className="card-image"
+          decoding="async"
+        />
+      )),
+    [photos],
+  )
 
   return (
     <div className="w-full max-w-4xl mx-auto px-4">
@@ -51,16 +72,9 @@ export function PhotosGallery() {
       </motion.div>
 
       <div className="flex flex-col items-center gap-2">
-        <div className="w-72 h-96 sm:w-80 sm:h-[26rem] md:w-96 md:h-[30rem]">
+        <div className="w-52 h-72 sm:w-64 sm:h-[22rem] md:w-80 md:h-[26rem]">
           <Stack
-            cards={photos.map((photo, index) => (
-              <img
-                key={photo + index}
-                src={photo}
-                alt={`Nosso momento ${index + 1}`}
-                className="card-image"
-              />
-            ))}
+            cards={cards}
             randomRotation
             sensitivity={180}
             sendToBackOnClick
