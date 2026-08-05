@@ -1,17 +1,11 @@
 import * as React from "react"
-import Autoplay from "embla-carousel-autoplay"
-import { Card, CardContent } from "@/components/ui/card"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
 import { motion } from "framer-motion"
 import { supabase } from "@/lib/supabase"
+import GradientText from "@/components/ui/gradient-text"
+import Stack from "@/components/ui/stack"
+import { HeartFavorite } from "@/components/ui/heart-favorite"
 
-const defaultPhotos = [
+export const defaultPhotos = [
   "/fotos/233793f9-6033-43a6-adf0-7bc77e07f59a.JPEG",
   "/fotos/8c24059c-4ee1-4b80-a190-7d56040ef066.JPEG",
   "/fotos/99c2bbae-bad4-4cc5-a937-6cea975c675d.JPEG",
@@ -22,9 +16,6 @@ const defaultPhotos = [
 
 export function PhotosGallery() {
   const [photos, setPhotos] = React.useState<string[]>(defaultPhotos)
-  const plugin = React.useRef(
-    Autoplay({ delay: 4000, stopOnInteraction: true })
-  )
 
   React.useEffect(() => {
     const fetchPhotos = async () => {
@@ -52,39 +43,39 @@ export function PhotosGallery() {
         className="text-center mb-12"
       >
         <h2 className="font-display text-4xl md:text-5xl text-foreground mb-4">
-          Nossos Momentos
+          <GradientText as="span">Nossos Momentos</GradientText>
         </h2>
         <p className="text-muted-foreground text-lg">
           Memórias que guardo com todo carinho 📸
         </p>
       </motion.div>
 
-      <Carousel
-        plugins={[plugin.current]}
-        className="w-full"
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
-      >
-        <CarouselContent>
-          {photos.map((photo, index) => (
-            <CarouselItem key={index}>
-              <div className="p-1">
-                <Card className="border-none shadow-none bg-transparent">
-                  <CardContent className="flex aspect-[4/5] md:aspect-video items-center justify-center p-0 overflow-hidden rounded-3xl bg-black/20">
-                    <img 
-                      src={photo} 
-                      alt={`Nosso momento ${index + 1}`} 
-                      className="w-full h-full object-contain hover:scale-105 transition-transform duration-500"
-                    />
-                  </CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="hidden md:flex" />
-        <CarouselNext className="hidden md:flex" />
-      </Carousel>
+      <div className="flex flex-col items-center gap-2">
+        <div className="w-72 h-96 sm:w-80 sm:h-[26rem] md:w-96 md:h-[30rem]">
+          <Stack
+            cards={photos.map((photo, index) => (
+              <img
+                key={photo + index}
+                src={photo}
+                alt={`Nosso momento ${index + 1}`}
+                className="card-image"
+              />
+            ))}
+            randomRotation
+            sensitivity={180}
+            sendToBackOnClick
+            autoplay
+            autoplayDelay={4000}
+            pauseOnHover
+          />
+        </div>
+
+        <p className="text-sm text-muted-foreground/70 italic">
+          Arraste as fotos ou toque para ver a próxima
+        </p>
+
+        <HeartFavorite />
+      </div>
     </div>
   )
 }

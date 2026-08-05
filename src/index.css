@@ -91,6 +91,37 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.35);
+    color: hsl(var(--foreground));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--primary) / 0.6);
+    outline-offset: 2px;
+  }
+}
+
+/* Refined scrollbar used across scrollable panels */
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.35);
+    border-radius: 999px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.55);
+  }
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.35) transparent;
+  }
 }
 
 /* Heart-specific animations and utilities */
@@ -138,4 +169,85 @@ All colors MUST be HSL.
   }
 
   .unlock-glow { animation: unlock-glow 0.64s cubic-bezier(0.2, 0.9, 0.23, 1); }
+
+  @keyframes bounce-slow {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-bounce-slow { animation: bounce-slow 3.5s ease-in-out infinite; }
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.06); }
+  }
+
+  .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+
+  /* Aurora / mesh-gradient ambient background, inspired by ReactBits' Aurora effect */
+  .aurora-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.4;
+    will-change: transform;
+  }
+
+  .aurora-blob-1 {
+    width: 30rem;
+    height: 30rem;
+    top: -8rem;
+    left: -6rem;
+    background: radial-gradient(circle at 30% 30%, hsl(340 75% 60% / 0.55), transparent 70%);
+    animation: aurora-drift-1 20s ease-in-out infinite;
+  }
+
+  .aurora-blob-2 {
+    width: 26rem;
+    height: 26rem;
+    top: 8rem;
+    right: -8rem;
+    background: radial-gradient(circle at 70% 40%, hsl(280 60% 55% / 0.4), transparent 70%);
+    animation: aurora-drift-2 24s ease-in-out infinite;
+  }
+
+  .aurora-blob-3 {
+    width: 26rem;
+    height: 26rem;
+    bottom: -8rem;
+    left: 30%;
+    background: radial-gradient(circle at 50% 50%, hsl(10 75% 60% / 0.35), transparent 70%);
+    animation: aurora-drift-3 22s ease-in-out infinite;
+  }
+
+  @keyframes aurora-drift-1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(4rem, 3rem) scale(1.15); }
+  }
+
+  @keyframes aurora-drift-2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-3rem, 4rem) scale(1.1); }
+  }
+
+  @keyframes aurora-drift-3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(3rem, -3rem) scale(1.2); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora-blob { animation: none; }
+  }
+
+  /* Animated gradient border glow, used by SpotlightCard on hover */
+  @keyframes border-glow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .animate-border-glow {
+    background-size: 200% 200%;
+    animation: border-glow 4s ease infinite;
+  }
 }

@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { Music } from "lucide-react";
+import SpotlightCard from "@/components/ui/spotlight-card";
+import GradientText from "@/components/ui/gradient-text";
 
 const PlaylistSection = () => {
   return (
@@ -13,7 +15,7 @@ const PlaylistSection = () => {
       >
         <Music className="w-16 h-16 text-primary mx-auto mb-6 animate-float" />
         <h2 className="font-display text-4xl md:text-5xl text-foreground mb-4">
-          Nossa Playlist
+          Nossa <GradientText as="span">Playlist</GradientText>
         </h2>
         <p className="text-muted-foreground text-lg">
           As músicas que lembram a nós 🫶
@@ -25,9 +27,9 @@ const PlaylistSection = () => {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="bg-card rounded-3xl p-6 shadow-soft border border-border"
       >
-        {/* 
+        <SpotlightCard className="rounded-3xl p-6 shadow-soft" spotlightColor="hsl(340 80% 65% / 0.14)">
+        {/*
           PARA TROCAR A PLAYLIST:
           1. Vá no Spotify, clique nos 3 pontinhos da playlist -> Compartilhar -> Incorporar playlist
           2. Copie o link que está dentro do src="..." (ex: https://open.spotify.com/embed/playlist/...)
@@ -56,6 +58,7 @@ const PlaylistSection = () => {
             "Cada música me lembra um pedacinho de você" ❤️
           </p>
         </motion.div>
+        </SpotlightCard>
       </motion.div>
     </div>
   );

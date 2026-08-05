@@ -2,6 +2,8 @@ import Navbar from "@/components/Navbar";
 import { Card, CardContent } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import GradientText from "@/components/ui/gradient-text";
+import AuroraBackground from "@/components/ui/aurora-background";
 
 const NOTES = [
   {
@@ -84,17 +86,18 @@ const FlipCard = ({ note, index }: { note: typeof NOTES[0], index: number }) => 
 
 const NeverForget = () => {
   return (
-    <div className="min-h-screen bg-background text-foreground pb-20">
+    <div className="relative min-h-screen bg-background text-foreground pb-20 overflow-hidden">
+      <AuroraBackground className="opacity-60" />
       <Navbar />
-      
-      <div className="container mx-auto px-4 pt-32">
+
+      <div className="relative container mx-auto px-4 pt-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-4xl mx-auto"
         >
           <h1 className="font-display text-4xl md:text-5xl text-center mb-12 flex items-center justify-center gap-3">
-            Pra Você Nunca Esquecer 
+            <GradientText as="span">Pra Você Nunca Esquecer</GradientText>
             <img 
               src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Spiral%20notepad/3D/spiral_notepad_3d.png" 
               alt="Note" 

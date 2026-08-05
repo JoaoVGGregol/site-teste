@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
-import { Calendar, Heart, Star, Sparkles } from "lucide-react";
+import { Calendar, Heart, Star, Sparkles, Gem } from "lucide-react";
+import SpotlightCard from "@/components/ui/spotlight-card";
+import GradientText from "@/components/ui/gradient-text";
 
 const timelineEvents = [
   {
@@ -33,6 +35,13 @@ const timelineEvents = [
     icon: Sparkles,
     badge: "6 meses",
   },
+  {
+    date: "29 de Julho, 2026",
+    title: "A Aliança",
+    description: "O dia em que coloquei a aliança na sua mão e selei uma promessa: que essa história é para durar. Um marco que carrego com todo orgulho e que representa tudo o que sinto por você.",
+    icon: Gem,
+    badge: "Nosso marco",
+  },
 ];
 
 const Timeline = () => {
@@ -45,7 +54,7 @@ const Timeline = () => {
         transition={{ duration: 0.6 }}
         className="font-display text-4xl md:text-5xl text-center mb-16 text-foreground"
       >
-        Nossa Linha do Tempo
+        Nossa <GradientText as="span">Linha do Tempo</GradientText>
       </motion.h2>
 
       <motion.div
@@ -55,20 +64,20 @@ const Timeline = () => {
         transition={{ duration: 0.5 }}
         className="mb-12"
       >
-        <div className="bg-card rounded-2xl p-6 shadow-glow border border-primary/40 text-center">
+        <SpotlightCard className="border-primary/40 shadow-glow p-6 text-center" spotlightColor="hsl(340 80% 65% / 0.22)">
           <span className="inline-flex text-xs font-semibold px-3 py-1 rounded-full bg-primary/15 text-primary border border-primary/30 uppercase tracking-wide mb-3">
-            6 meses
+            Nosso marco mais recente
           </span>
-          <h3 className="font-display text-2xl md:text-3xl text-foreground mb-2">Nosso Marco Especial 💖</h3>
+          <h3 className="font-display text-2xl md:text-3xl text-foreground mb-2">A Aliança 💍</h3>
           <p className="text-muted-foreground leading-relaxed">
-            Seis meses de amor, risadas e momentos inesquecíveis. Que esse seja só o começo da nossa história.
+            Em 29 de julho de 2026, coloquei a aliança na sua mão. Um gesto pequeno pra guardar uma promessa gigante: essa história é para durar.
           </p>
-        </div>
+        </SpotlightCard>
       </motion.div>
 
       <div className="relative">
         {/* Vertical line */}
-        <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-accent to-primary transform md:-translate-x-1/2" />
+        <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-accent to-primary transform md:-translate-x-1/2 shadow-[0_0_12px_hsl(var(--primary)/0.5)]" />
 
         <div className="space-y-12">
           {timelineEvents.map((event, index) => {
@@ -91,14 +100,15 @@ const Timeline = () => {
 
                 {/* Icon in center */}
                 <div className="absolute left-8 md:left-1/2 transform -translate-x-1/2 z-10">
-                  <div className="w-16 h-16 rounded-full bg-gradient-romantic flex items-center justify-center shadow-glow border-4 border-background">
+                  <div className="absolute inset-0 rounded-full bg-primary/40 blur-md animate-pulse-slow" />
+                  <div className="relative w-16 h-16 rounded-full bg-gradient-romantic flex items-center justify-center shadow-glow border-4 border-background">
                     <Icon className="w-8 h-8 text-primary-foreground" />
                   </div>
                 </div>
 
                 {/* Content card */}
                 <div className={`ml-20 md:ml-0 md:w-1/2 ${isEven ? "md:pr-12" : "md:pl-12"}`}>
-                  <div className="bg-card rounded-2xl p-6 shadow-soft border border-border hover:shadow-glow transition-all duration-300">
+                  <SpotlightCard className="p-6 shadow-soft hover:shadow-glow transition-shadow duration-300">
                     <div className="flex items-center gap-3 mb-2">
                       <div className="text-sm text-primary font-semibold">{event.date}</div>
                       {event.badge && (
@@ -109,7 +119,7 @@ const Timeline = () => {
                     </div>
                     <h3 className="font-display text-2xl mb-2 text-foreground">{event.title}</h3>
                     <p className="text-muted-foreground leading-relaxed">{event.description}</p>
-                  </div>
+                  </SpotlightCard>
                 </div>
               </motion.div>
             );

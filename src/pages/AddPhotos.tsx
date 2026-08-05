@@ -8,6 +8,8 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import GradientText from "@/components/ui/gradient-text";
+import AuroraBackground from "@/components/ui/aurora-background";
 
 const AddPhotos = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -80,20 +82,21 @@ const AddPhotos = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground pb-20">
+    <div className="relative min-h-screen bg-background text-foreground pb-20 overflow-hidden">
+      <AuroraBackground className="opacity-60" />
       <Navbar />
-      
-      <div className="container mx-auto px-4 pt-32">
+
+      <div className="relative container mx-auto px-4 pt-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-2xl mx-auto"
         >
           <h1 className="font-display text-4xl md:text-5xl text-center mb-8 flex items-center justify-center gap-3">
-            Adicionar Novas Memórias <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Camera/3D/camera_3d.png" alt="Camera" className="w-12 h-12 inline-block" />
+            <GradientText as="span">Adicionar Novas Memórias</GradientText> <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Camera/3D/camera_3d.png" alt="Camera" className="w-12 h-12 inline-block" />
           </h1>
-          
-          <Card className="bg-card/50 border-white/10">
+
+          <Card className="bg-card/50 backdrop-blur-lg border-white/10 shadow-soft hover:shadow-glow hover:border-primary/30 transition-all duration-500">
             <CardContent className="pt-6 space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="photo-upload">Escolher Foto</Label>
@@ -136,8 +139,9 @@ const AddPhotos = () => {
                 />
               </div>
 
-              <Button 
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+              <Button
+                variant="glow"
+                className="w-full"
                 onClick={handleUpload}
                 disabled={uploading}
               >

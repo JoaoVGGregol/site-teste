@@ -13,6 +13,8 @@ import { ptBR } from "date-fns/locale";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
+import GradientText from "@/components/ui/gradient-text";
+import AuroraBackground from "@/components/ui/aurora-background";
 
 const EMOJIS = {
   heart: "https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Red%20heart/3D/red_heart_3d.png",
@@ -100,21 +102,22 @@ const Dates = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground pb-20">
+    <div className="relative min-h-screen bg-background text-foreground pb-20 overflow-hidden">
+      <AuroraBackground className="opacity-70" />
       <Navbar />
-      
-      <div className="container mx-auto px-4 pt-32">
+
+      <div className="relative container mx-auto px-4 pt-32">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-4xl mx-auto"
         >
           <h1 className="font-display text-4xl md:text-5xl text-center mb-8 flex items-center justify-center gap-4">
-            Nossos Dates <img src={EMOJIS.heart} alt="Heart" className="w-12 h-12 inline-block animate-pulse" />
+            <GradientText as="span">Nossos Dates</GradientText> <img src={EMOJIS.heart} alt="Heart" className="w-12 h-12 inline-block animate-pulse" />
           </h1>
           
           <div className="grid md:grid-cols-2 gap-8">
-            <Card className="bg-card/50 border-white/10 overflow-hidden relative">
+            <Card className="bg-card/50 backdrop-blur-lg border-white/10 overflow-hidden relative shadow-soft hover:shadow-glow hover:border-primary/30 transition-all duration-500">
               <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
                 <img src={EMOJIS.calendar} alt="" className="w-32 h-32" />
               </div>
@@ -142,7 +145,7 @@ const Dates = () => {
               </CardContent>
             </Card>
 
-            <Card className="bg-card/50 border-white/10 overflow-hidden relative min-h-[400px]">
+            <Card className="bg-card/50 backdrop-blur-lg border-white/10 overflow-hidden relative min-h-[400px] shadow-soft hover:shadow-glow hover:border-primary/30 transition-all duration-500">
               <div className="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
                 <img src={EMOJIS.party} alt="" className="w-32 h-32" />
               </div>
@@ -234,11 +237,12 @@ const Dates = () => {
                 </div>
               </div>
               <DialogFooter>
-                <Button 
-                  type="submit" 
-                  onClick={handleSaveDate} 
+                <Button
+                  type="submit"
+                  variant="glow"
+                  onClick={handleSaveDate}
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground h-12 text-lg font-medium shadow-lg shadow-primary/20"
+                  className="w-full h-12 text-lg font-medium"
                 >
                   {loading ? (
                     <>

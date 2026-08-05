@@ -8,6 +8,8 @@ import { motion } from "framer-motion";
 import { Loader2, Send, Trash2, Mail } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { sendDiaryNotificationEmail } from "@/lib/email";
+import GradientText from "@/components/ui/gradient-text";
+import AuroraBackground from "@/components/ui/aurora-background";
 
 interface Message {
   id: string;
@@ -158,23 +160,24 @@ const Diary = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="relative min-h-screen bg-background pb-20 overflow-hidden">
+      <AuroraBackground className="opacity-60" />
       <Navbar />
-      
-      <div className="container mx-auto px-4 pt-24 max-w-2xl">
+
+      <div className="relative container mx-auto px-4 pt-24 max-w-2xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
-          <img 
-            src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Memo/3D/memo_3d.png" 
-            alt="Diário" 
+          <img
+            src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Memo/3D/memo_3d.png"
+            alt="Diário"
             className="w-24 h-24 mx-auto mb-4 animate-bounce-slow"
           />
-          <h1 className="font-display text-4xl md:text-5xl text-primary mb-2">
-            Nosso Diário
+          <h1 className="font-display text-4xl md:text-5xl mb-2">
+            <GradientText as="span">Nosso Diário</GradientText>
           </h1>
           <p className="text-muted-foreground font-body text-lg">
             Um espaço para guardar sentimentos, cartas e pensamentos.
@@ -185,7 +188,7 @@ const Diary = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="bg-card/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6 shadow-xl mb-12"
+          className="bg-card/50 backdrop-blur-sm border border-white/10 rounded-2xl p-6 shadow-xl hover:shadow-glow hover:border-primary/30 transition-all duration-500 mb-12"
         >
           <Textarea
             placeholder="Como você está se sentindo hoje? Escreva aqui..."
@@ -194,10 +197,10 @@ const Diary = () => {
             onChange={(e) => setMessage(e.target.value)}
           />
           <div className="flex justify-end">
-            <Button 
-              onClick={handleSave} 
+            <Button
+              onClick={handleSave}
               disabled={isLoading}
-              className="bg-primary hover:bg-primary/90 text-primary-foreground"
+              variant="glow"
             >
               {isLoading ? (
                 <>

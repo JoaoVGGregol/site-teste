@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
+import GradientText from "@/components/ui/gradient-text";
 import placeCafe from "@/assets/place-cafe.jpg";
 import placePark from "@/assets/place-park.jpg";
 import placeRestaurant from "@/assets/place-restaurant.jpg";
@@ -35,7 +36,7 @@ const PlacesGallery = () => {
         transition={{ duration: 0.6 }}
         className="font-display text-4xl md:text-5xl text-center mb-16 text-foreground"
       >
-        Lugares que fomos :) 
+        <GradientText as="span">Lugares que fomos</GradientText> :)
       </motion.h2>
 
       <div className="grid md:grid-cols-3 gap-8">
@@ -48,7 +49,7 @@ const PlacesGallery = () => {
             transition={{ duration: 0.6, delay: index * 0.2 }}
             className="group cursor-pointer"
           >
-            <div className="relative overflow-hidden rounded-2xl shadow-soft hover:shadow-glow transition-all duration-500">
+            <div className="relative overflow-hidden rounded-2xl border border-white/10 shadow-soft hover:shadow-glow hover:border-primary/40 transition-all duration-500">
               <div className="aspect-[4/3] overflow-hidden">
                 {/* @ts-ignore */}
                 {place.mapUrl ? (

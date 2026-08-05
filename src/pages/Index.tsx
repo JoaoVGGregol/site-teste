@@ -8,6 +8,8 @@ import { PhotosGallery } from "@/components/PhotosGallery";
 import LoadingScreen from "@/components/LoadingScreen";
 import FuturePlaces from "@/components/FuturePlaces";
 import Navbar from "@/components/Navbar";
+import AuroraBackground from "@/components/ui/aurora-background";
+import GradientText from "@/components/ui/gradient-text";
 
 const Index = () => {
   const [monthsElapsed, setMonthsElapsed] = useState(0);
@@ -42,6 +44,7 @@ const Index = () => {
             alt="Hero Background"
             className="w-full h-full object-cover opacity-40 animate-pulse-slow"
           />
+          <AuroraBackground className="z-[5]" />
         </div>
 
         {/* Content */}
@@ -57,7 +60,7 @@ const Index = () => {
                 NOSSA HISTÓRIA ESPECIAL
               </p>
               <h1 className="font-display text-4xl md:text-6xl text-foreground mt-2 leading-tight">
-                Um cantinho só nosso 💖
+                Um <GradientText as="span">cantinho só nosso</GradientText> 💖
               </h1>
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}

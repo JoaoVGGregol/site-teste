@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Globe as GlobeIcon, Loader2 } from "lucide-react";
 import { useEffect, useState, useRef, lazy, Suspense, Component, ReactNode } from "react";
+import GradientText from "@/components/ui/gradient-text";
 
 // Lazy load do Globe
 const Globe = lazy(() => import("react-globe.gl"));
@@ -95,7 +96,7 @@ const FuturePlaces = () => {
           className="w-24 h-24 mx-auto mb-6 animate-float drop-shadow-lg" 
         />
         <h2 className="font-display text-4xl md:text-5xl text-foreground mb-4">
-          Lugares que eu quero ser feliz contigo
+          <GradientText as="span">Lugares que eu quero ser feliz contigo</GradientText>
         </h2>
         <p className="text-muted-foreground text-lg flex items-center justify-center gap-2">
           O mundo é muito pequeno para o tanto que eu te amo <img src="https://raw.githubusercontent.com/microsoft/fluentui-emoji/main/assets/Sparkling%20heart/3D/sparkling_heart_3d.png" alt="Heart" className="w-6 h-6 inline-block" />
@@ -107,7 +108,7 @@ const FuturePlaces = () => {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.2 }}
-        className="w-full h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-border/50 bg-black relative flex items-center justify-center"
+        className="w-full h-[600px] rounded-3xl overflow-hidden shadow-2xl border border-primary/20 hover:border-primary/40 bg-black relative flex items-center justify-center transition-colors duration-500"
         ref={containerRef}
       >
         {isMounted && dimensions.width > 0 && (

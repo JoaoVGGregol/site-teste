@@ -1,5 +1,7 @@
 ﻿import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import SpotlightCard from "@/components/ui/spotlight-card";
+import GradientText from "@/components/ui/gradient-text";
 
 const CountdownTimer = () => {
   const [timeElapsed, setTimeElapsed] = useState({
@@ -58,7 +60,7 @@ const CountdownTimer = () => {
         transition={{ delay: 0.2 }}
         className="font-display text-4xl md:text-6xl text-foreground text-center"
       >
-        Nosso Tempo Juntos
+        Nosso <GradientText as="span">Tempo Juntos</GradientText>
       </motion.h2>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 w-full max-w-4xl">
@@ -75,14 +77,14 @@ const CountdownTimer = () => {
             transition={{ delay: 0.3 + index * 0.1 }}
             className="relative"
           >
-            <div className="bg-card backdrop-blur-lg rounded-2xl p-6 md:p-8 shadow-soft border border-border hover:shadow-glow transition-all duration-300">
-              <div className="text-4xl md:text-6xl font-bold text-primary font-display text-center">
+            <SpotlightCard className="backdrop-blur-lg p-6 md:p-8 shadow-soft hover:shadow-glow transition-shadow duration-300">
+              <div className="text-4xl md:text-6xl font-bold text-primary font-display text-center tabular-nums">
                 {item.value.toString().padStart(2, "0")}
               </div>
               <div className="text-sm md:text-base text-muted-foreground text-center mt-2 font-medium">
                 {item.label}
               </div>
-            </div>
+            </SpotlightCard>
           </motion.div>
         ))}
       </div>
