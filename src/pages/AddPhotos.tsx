@@ -11,6 +11,39 @@ import { Loader2 } from "lucide-react";
 import GradientText from "@/components/ui/gradient-text";
 import AuroraBackground from "@/components/ui/aurora-background";
 
+const MAX_DIMENSION = 1600;
+
+/**
+ * Reduz a foto antes de enviar. Uma imagem direto da câmera do celular chega a
+ * 4000x3000, o que vira dezenas de MB de memória na hora de exibir a galeria e
+ * derruba a aba no iPhone. Se algo falhar, envia o arquivo original.
+ */
+async function compressImage(file: File): Promise<File | Blob> {
+  if (!file.type.startsWith("image/")) return file;
+
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, MAX_DIMENSION / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return file;
+    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
+
+    const blob = await new Promise<Blob | null>((resolve) =>
+      canvas.toBlob(resolve, "image/webp", 0.82),
+    );
+
+    // Só vale a pena se realmente ficou menor.
+    return blob && blob.size < file.size ? blob : file;
+  } catch {
+    return file;
+  }
+}
+
 const AddPhotos = () => {
   const [file, setFile] = useState<File | null>(null);
   const [description, setDescription] = useState("");
@@ -37,13 +70,14 @@ const AddPhotos = () => {
 
     try {
       // 1. Upload da imagem para o Storage
-      const fileExt = file.name.split('.').pop();
+      const compressed = await compressImage(file);
+      const fileExt = compressed === file ? file.name.split('.').pop() : 'webp';
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `${fileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from('gallery')
-        .upload(filePath, file);
+        .upload(filePath, compressed);
 
       if (uploadError) throw uploadError;
 

@@ -63,6 +63,8 @@ interface StackProps {
   pauseOnHover?: boolean;
   mobileClickOnly?: boolean;
   mobileBreakpoint?: number;
+  /** Quantas cartas ficam realmente montadas no DOM ao mesmo tempo. */
+  visibleCards?: number;
 }
 
 export default function Stack({
@@ -76,6 +78,7 @@ export default function Stack({
   pauseOnHover = false,
   mobileClickOnly = false,
   mobileBreakpoint = 768,
+  visibleCards = 5,
 }: StackProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -101,11 +104,20 @@ export default function Stack({
     setStack(cards.map((content, index) => ({ id: index + 1, content })));
   }, [cards]);
 
+  // Só as cartas do topo ficam montadas. Com um álbum grande, manter todas as
+  // imagens no DOM estoura a memória do celular — e as de baixo nem aparecem.
+  // stack[0] é a carta que acabou de ir para trás, então ela entra no fundo da
+  // pilha visível e a transição continua igual à de antes.
+  const visible = useMemo(() => {
+    if (stack.length <= visibleCards) return stack;
+    return [stack[0], ...stack.slice(-(visibleCards - 1))];
+  }, [stack, visibleCards]);
+
   // Um sorteio fixo por posição da pilha. Sortear durante o render mudava o
   // ângulo a cada frame e mantinha o framer-motion reanimando sem parar.
   const randomRotations = useMemo(
-    () => Array.from({ length: stack.length }, () => (randomRotation ? Math.random() * 10 - 5 : 0)),
-    [stack.length, randomRotation],
+    () => Array.from({ length: visible.length }, () => (randomRotation ? Math.random() * 10 - 5 : 0)),
+    [visible.length, randomRotation],
   );
 
   const sendToBack = (id: number) => {
@@ -141,7 +153,7 @@ export default function Stack({
       onMouseEnter={() => pauseOnHover && setIsPaused(true)}
       onMouseLeave={() => pauseOnHover && setIsPaused(false)}
     >
-      {stack.map((card, index) => {
+      {visible.map((card, index) => {
         const randomRotate = randomRotations[index] ?? 0;
         return (
           <CardRotate
@@ -154,8 +166,8 @@ export default function Stack({
               className="card"
               onClick={() => shouldEnableClick && sendToBack(card.id)}
               animate={{
-                rotateZ: (stack.length - index - 1) * 4 + randomRotate,
-                scale: 1 + index * 0.06 - stack.length * 0.06,
+                rotateZ: (visible.length - index - 1) * 4 + randomRotate,
+                scale: 1 + index * 0.06 - visible.length * 0.06,
                 transformOrigin: "90% 90%",
               }}
               initial={false}

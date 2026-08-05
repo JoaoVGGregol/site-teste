@@ -5,8 +5,6 @@ import GradientText from "@/components/ui/gradient-text"
 import Stack from "@/components/ui/stack"
 import { HeartFavorite } from "@/components/ui/heart-favorite"
 
-const MAX_PHOTOS = 12
-
 // Versões .webp redimensionadas: as originais .JPEG continuam em public/fotos,
 // mas ocupavam ~8 MB de memória cada quando decodificadas no celular.
 export const defaultPhotos = [
@@ -30,9 +28,7 @@ export function PhotosGallery() {
 
       if (data && data.length > 0) {
         const urls = data.map(photo => photo.url)
-        // Limita a pilha: cada foto vira uma imagem viva na memória, e o Safari
-        // do iPhone derruba a aba se a galeria crescer demais.
-        setPhotos([...urls, ...defaultPhotos].slice(0, MAX_PHOTOS))
+        setPhotos([...urls, ...defaultPhotos])
       }
     }
 
